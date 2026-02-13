@@ -41,7 +41,7 @@ const Navbar = () => {
                     "fixed top-[30px] inset-x-0 z-40 transition-all duration-300 bg-black/60 backdrop-blur-md py-4 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-b border-white/10"
                 )}
             >
-                <div className="container mx-auto px-4 flex items-center justify-between">
+                <div className="container mx-auto px-6 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="ghost"
@@ -175,15 +175,30 @@ const Navbar = () => {
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className={`relative ${hoverColorClass} transition-colors hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(47,255,0,0.8)]`}
+                            ripple={false}
+                            className={`relative ${hoverColorClass} transition-colors hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(47,255,0,0.8)] overflow-visible`}
                             asChild
                         >
                             <Link href="/cart" aria-label="Abrir carrito">
                                 <ShoppingBag className="w-5 h-5" />
                                 {itemCount > 0 && (
-                                    <span className={`absolute -top-1 -right-1 w-4 h-4 ${isMujerSection && !scrolled && !isMegaMenuOpen ? "bg-rose-500 text-white" : "bg-primary text-primary-foreground"} text-[10px] flex items-center justify-center rounded-full font-bold`}>
-                                        {itemCount}
-                                    </span>
+                                    <motion.span
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    key={itemCount}
+                                    className={cn(
+                                        "absolute -top-1 -right-1",
+                                        "min-w-[18px] h-[18px] px-1",
+                                        "flex items-center justify-center rounded-full",
+                                        "text-[10px] font-black leading-none",
+                                        "z-50 shadow-sm",
+                                        isMujerSection && !scrolled && !isMegaMenuOpen
+                                        ? "bg-rose-500 text-white"
+                                        : "bg-primary text-black"
+                                    )}
+                                >
+                                    {itemCount}
+                                </motion.span>
                                 )}
                             </Link>
                         </Button>

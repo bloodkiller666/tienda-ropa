@@ -12,7 +12,7 @@ type CartItem = {
 
 type CartContextType = {
     cart: CartItem[];
-    addToCart: (product: Omit<CartItem, 'quantity'>) => void;
+    addToCart: (product: Omit<CartItem, 'quantity'>, showModal?: boolean) => void;
     removeFromCart: (id: number) => void;
     itemCount: number;
     isCartModalOpen: boolean;
@@ -25,7 +25,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
-    const addToCart = (product: Omit<CartItem, 'quantity'>) => {
+    const addToCart = (product: Omit<CartItem, 'quantity'>, showModal: boolean = true) => {
         setCart((prev) => {
             const existing = prev.find((item) => item.id === product.id);
             if (existing) {
@@ -35,7 +35,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             }
             return [...prev, { ...product, quantity: 1 }];
         });
-        setIsCartModalOpen(true);
+        if (showModal) {
+            setIsCartModalOpen(true);
+        }
     };
 
     const removeFromCart = (id: number) => {

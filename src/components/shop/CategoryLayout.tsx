@@ -358,6 +358,7 @@ export default function CategoryPage({ category }: { category: string }) {
                                 product={product as { id: number; name: string; price: string; image: string | StaticImageData }}
                                 accentClass={accentClass}
                                 cardClassName={isMujer ? "bg-rose-50 border-rose-100" : undefined}
+                                isGirlShop={isMujer}
                                 onAddToCart={(p) =>
                                     addToCart({
                                         id: p.id,

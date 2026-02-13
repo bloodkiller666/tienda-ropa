@@ -76,7 +76,7 @@ export default function CartPage() {
                                         <div className="flex items-center gap-3 bg-background rounded-xl px-3 py-2 border border-primary/10">
                                             <span className="text-sm font-bold">Cantidad: {item.quantity}</span>
                                             <button
-                                                onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, image: item.image })}
+                                                onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, image: item.image }, false)}
                                                 className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/40 text-primary transition-colors"
                                                 aria-label="Incrementar cantidad"
                                             >
