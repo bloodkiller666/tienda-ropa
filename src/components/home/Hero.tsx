@@ -53,7 +53,7 @@ const Hero = () => {
     }, [current]);
 
     return (
-        <div className="relative md:h-screen h-[70vh] w-full overflow-hidden flex items-center justify-center bg-black pt-24 md:pt-0">
+        <div className="relative md:h-screen h-[76vh] w-full overflow-hidden flex items-center justify-center bg-black pt-10 md:pt-0">
             {/* Background Galaxy */}
             <div className="absolute inset-0 z-0">
                 <Galaxy />
@@ -146,7 +146,7 @@ const Hero = () => {
     </button>
     
     {/* Los puntitos indicadores los mantenemos abajo, pero más discretos */}
-    <div className="absolute -bottom-[180px] md:-bottom-[350px] left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-auto">
+    <div className="absolute -bottom-[35px] md:-bottom-[350px] left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-auto">
         {slides.map((_, idx) => (
             <div 
                 key={idx} 
