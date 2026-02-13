@@ -53,7 +53,7 @@ const Hero = () => {
     }, [current]);
 
     return (
-        <div className="relative md:h-screen h-[70vh] w-full overflow-hidden flex items-center justify-center bg-black">
+        <div className="relative md:h-screen h-[70vh] w-full overflow-hidden flex items-center justify-center bg-black pt-24 md:pt-0">
             {/* Background Galaxy */}
             <div className="absolute inset-0 z-0">
                 <Galaxy />
