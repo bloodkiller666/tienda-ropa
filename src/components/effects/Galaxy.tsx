@@ -195,12 +195,12 @@
      canvas.style.height = "100%";
      canvas.style.display = "block";
     container.appendChild(canvas);
- 
-     const geometry = new Triangle(gl);
-     const program = new Program(gl, {
-       vertex: vertexShader,
-       fragment: fragmentShader,
-       uniforms: {
+
+    const geometry = new Triangle(gl as any);
+    const program = new Program(gl as any, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      uniforms: {
          uTime: { value: 0 },
         uResolution: { value: [container.clientWidth, container.clientHeight, 1] },
          uFocal: { value: focal },
@@ -220,11 +220,11 @@
          uAutoCenterRepulsion: { value: autoCenterRepulsion },
          uTransparent: { value: transparent },
        },
-     });
- 
-     const mesh = new Mesh(gl, { geometry, program });
-     meshRef.current = mesh;
- 
+    });
+
+    const mesh = new Mesh(gl as any, { geometry, program });
+    meshRef.current = mesh;
+
     type Uniforms = {
       uTime: { value: number };
       uResolution: { value: [number, number, number] };
