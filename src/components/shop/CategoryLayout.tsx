@@ -1,6 +1,6 @@
  "use client";
  
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image, { type StaticImageData } from "next/image";
 import ProductFlipCard from "@/components/ui/ProductFlipCard";
@@ -98,6 +98,16 @@ export default function CategoryPage({ category }: { category: string }) {
         stock?: number;
     } | null>(null);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (sortBtnRef.current && !sortBtnRef.current.contains(event.target as Node)) {
+                setIsSortOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     // Get unique categories
     const categories = ["Todos", ...Array.from(new Set(products.map(p => p.category)))];
 
@@ -191,10 +201,17 @@ export default function CategoryPage({ category }: { category: string }) {
             <div className="relative z-10">
                 <div className="relative h-[40vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
                     <Image
-                        src={isHombre ? h1 : m1}
+                        src={
+                            isHombre 
+                                ? "/images/631cf1106153511.5f8936068499e.gif" 
+                                : isMujer 
+                                    ? "/images/67ab8e7176bac7bbc6c8427645f0ba1e.gif" 
+                                    : "/images/e324e56f50d63422474d6fb5c0fb39ad.gif"
+                        }
                         alt={title}
                         fill
                         className="object-cover opacity-60"
+                        unoptimized
                     />
                     <div className={`absolute inset-0 bg-gradient-to-t ${isMujer ? "from-white" : "from-[#020202]"} via-transparent to-transparent`} />
                     <motion.h1
@@ -208,10 +225,10 @@ export default function CategoryPage({ category }: { category: string }) {
 
             {/* SVG Filter para Liquid Distortion (Opcional pero recomendado) */}
                 
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-4 pt-7 pb-20">
                 {/* Filters & Sorting */}
-                <div className={`relative mb-8`}>
-                    <div className={`flex flex-col md:flex-row justify-between items-center gap-4 ${isHombre ? 'bg-slate-900/80 border-slate-800' : isMujer ? 'bg-white/80 border-rose-100' : 'bg-background/80 border-border/50'} backdrop-blur-md p-4 rounded-xl border`}>
+                <div className="relative mt-6 mb-10 z-40">
+                    <div className={`relative z-50 flex flex-col md:flex-row justify-between items-center gap-4 ${isHombre ? 'bg-slate-900/80 border-slate-800' : isMujer ? 'bg-white/80 border-rose-100' : 'bg-background/80 border-border/50'} backdrop-blur-md p-4 rounded-xl border`}>
                         <div className="flex items-center gap-2">
                             <Button 
                                 variant="outline" 
@@ -255,8 +272,16 @@ export default function CategoryPage({ category }: { category: string }) {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className={`absolute right-0 top-full mt-2 z-50 w-56 p-2 rounded-xl border shadow-xl ${isHombre ? 'bg-slate-900 border-slate-800' : isMujer ? 'bg-white border-rose-100' : 'bg-background border-border'}`}
+                                        className={`absolute right-0 top-full mt-3 z-[60] w-64 p-2 rounded-2xl border shadow-2xl backdrop-blur-xl
+                                            ${isHombre ?
+                                                'bg-slate-900/95 border-slate-700 text-white' 
+                                                : isMujer 
+                                                ? 'bg-white/95 border-rose-100 text-rose-800' 
+                                                : 'bg-background/95 border-border'}`}
                                     >
+                                        <div className="py-1 px-2 mb-2 border-b border-white/10">
+                                                <p className="text-[10px] uppercase tracking-widest opacity-50 font-bold">Opciones de orden</p>
+                                        </div>
                                         {[
                                             { label: "Relevancia", value: "relevance" },
                                             { label: "Precio: Menor a Mayor", value: "price-asc" },
@@ -270,14 +295,14 @@ export default function CategoryPage({ category }: { category: string }) {
                                                     setSortOption(opt.value);
                                                     setIsSortOpen(false);
                                                 }}
-                                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-between ${
+                                                className={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
                                                     sortOption === opt.value
                                                         ? (isHombre ? 'bg-slate-800 text-white' : isMujer ? 'bg-rose-50 text-rose-600' : 'bg-primary/10 text-primary')
                                                         : (isHombre ? 'text-slate-400 hover:bg-slate-800 hover:text-white' : isMujer ? 'text-stone-600 hover:bg-rose-50 hover:text-rose-600' : 'text-muted-foreground hover:bg-secondary')
                                                 }`}
                                             >
                                                 {opt.label}
-                                                {sortOption === opt.value && <Check className="w-3 h-3" />}
+                                                {sortOption === opt.value && <Check className="w-4 h-4" />}
                                             </button>
                                         ))}
                                     </motion.div>
@@ -293,7 +318,7 @@ export default function CategoryPage({ category }: { category: string }) {
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                className="overflow-hidden"
+                                className="relative z-30 overflow-hidden"
                             >
                                 <div className={`mt-2 p-4 rounded-xl border ${isHombre ? 'bg-slate-900/50 border-slate-800' : isMujer ? 'bg-white/50 border-rose-100' : 'bg-background/50 border-border/50'} backdrop-blur-md`}>
                                     <h4 className={`text-sm font-bold mb-3 uppercase tracking-wider ${isHombre ? 'text-slate-400' : isMujer ? 'text-stone-500' : 'text-muted-foreground'}`}>Categorías</h4>
